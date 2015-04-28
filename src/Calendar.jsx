@@ -48,6 +48,8 @@ var VIEW_FORMATS  = {
 
 var propTypes = {
 
+  onCellRender:  React.PropTypes.func, // Instrument mod
+
   onChange:      React.PropTypes.func,
   value:         React.PropTypes.instanceOf(Date),
 
@@ -222,6 +224,7 @@ var Calendar = React.createClass({
             selectedDate={this.props.value}
             today={todaysDate}
             value={this.state.currentDate}
+            onCellRender={this.props.onCellRender /* Instrument mod */}
             onChange={this._maybeHandle(this.change)}
             onKeyDown={this._maybeHandle(this._keyDown)}
             onMoveLeft ={this._maybeHandle(this.navigate.bind(null,  dir.LEFT))}

@@ -32,6 +32,7 @@ module.exports = React.createClass({
     dayFormat:        CustomPropTypes.localeFormat.isRequired,
     dateFormat:       CustomPropTypes.localeFormat.isRequired,
 
+    onCellRender:     React.PropTypes.func, // Instrument mod
     onChange:         React.PropTypes.func.isRequired, //value is chosen
     onMoveLeft:       React.PropTypes.func,
     onMoveRight:      React.PropTypes.func
@@ -82,7 +83,7 @@ module.exports = React.createClass({
                     'rw-state-focus':    focused,
                     'rw-state-selected': selected,
                     'rw-now': today
-                  })}
+                  }) + ' ' + (this.props.onCellRender ? this.props.onCellRender(day, idx) : '')}
                   id={focused ? id : undefined}>
                   {dates.format(day, this.props.dateFormat, this.props.culture)}
                 </Btn>
