@@ -3,7 +3,7 @@ var gulp    = require('gulp')
   , del     = require('del')
   , merge   = require('merge-stream')
   , webpack = require('webpack')
-  , release = require('rf-release')
+  //, release = require('rf-release')
   , WebpackServer = require("webpack-dev-server")
   , concat = require('gulp-concat')
   , less = require('gulp-less')
@@ -129,9 +129,9 @@ gulp.task('less-test', function(){
     .pipe(gulp.dest('./dist/css'))
 })
 
-gulp.task('release', [ 'lib', 'dist-build']);
+//gulp.task('release', [ 'lib', 'dist-build']);
 
-gulp.task('publish', ['release'], release)
+//gulp.task('publish', ['release'], release)
 
 gulp.task('publish-docs', ['docs'], function(finish){
   run('git cm "rebuild docs"', function(){

@@ -49,6 +49,7 @@ var VIEW_FORMATS  = {
 var propTypes = {
 
   onCellRender:  React.PropTypes.func, // Instrument mod
+  onViewChange:  React.PropTypes.func, // Instrument mod
 
   onChange:      React.PropTypes.func,
   value:         React.PropTypes.instanceOf(Date),
@@ -205,7 +206,7 @@ var Calendar = React.createClass({
           upDisabled={  disabled || this.state.view === this.props.finalView}
           prevDisabled={disabled || !dates.inRange(this.nextDate(dir.LEFT), this.props.min, this.props.max, unit)}
           nextDisabled={disabled || !dates.inRange(this.nextDate(dir.RIGHT), this.props.min, this.props.max, unit)}
-          onViewChange={this._maybeHandle(this.navigate.bind(null, dir.UP, null))}
+          onViewChange={null /*this._maybeHandle(this.navigate.bind(null, dir.UP, null)) - Instrument mod*/}
           onMoveLeft ={this._maybeHandle(this.navigate.bind(null,  dir.LEFT, null))}
           onMoveRight={this._maybeHandle(this.navigate.bind(null,  dir.RIGHT, null))}/>
 
@@ -271,6 +272,8 @@ var Calendar = React.createClass({
         view: view
       })
     }
+
+    this.props.onViewChange && this.props.onViewChange(date); // Instrument mod
   },
 
   _focus: function(focused, e){
