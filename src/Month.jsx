@@ -33,6 +33,7 @@ module.exports = React.createClass({
     dateFormat:       CustomPropTypes.localeFormat.isRequired,
 
     onCellRender:     React.PropTypes.func, // Instrument mod
+    onWeekRender:     React.PropTypes.func, // Instrument mod
     onChange:         React.PropTypes.func.isRequired, //value is chosen
     onMoveLeft:       React.PropTypes.func,
     onMoveRight:      React.PropTypes.func
@@ -61,9 +62,9 @@ module.exports = React.createClass({
 
   _row: function(row, i){
     var id = this._id('_selected_item')
-    
+
     return (
-      <tr key={'week_' + i} role='row'>
+      <tr key={'week_' + i} role='row' className={(this.props.onWeekRender ? this.props.onWeekRender(row[0], i) : '') /*instrument mod*/}>
       { row.map( (day, idx) => {
         var focused  = dates.eq(day, this.state.focusedDate, 'day')
           , selected = dates.eq(day, this.props.selectedDate, 'day')

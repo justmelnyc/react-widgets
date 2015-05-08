@@ -91,25 +91,25 @@ gulp.task('dev', function(cb) {
   })
   .listen(8080, 'localhost', function (err, result) {
     if (err) return console.log(err);
-    
+
     console.log('Listening at localhost:8080');
     cb()
   });
 })
 
 gulp.task('dev-docs', function(cb) {
-  
+
   del('./docs/docs.js', function(){
 
-      new WebpackServer(webpack(configs.docServer), { 
-        publicPath: "/docs", 
-        hot: true, 
+      new WebpackServer(webpack(configs.docServer), {
+        publicPath: "/docs",
+        hot: true,
         hotComponent: true,
-        stats: { colors: true } 
+        stats: { colors: true }
       })
       .listen(8080, "localhost", function (err, result) {
         if (err) return console.log(err);
-        
+
         console.log('Listening at localhost:8080');
         cb()
       })
@@ -119,7 +119,7 @@ gulp.task('dev-docs', function(cb) {
 gulp.task('less-test', function(){
 
   return gulp.src([
-      './src/less/variables.less', 
+      './src/less/variables.less',
       './src/less/mixins.less',
       './src/less/bootstrap-theme.less',
       './src/less/core.less',

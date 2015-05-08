@@ -7,7 +7,7 @@ var React           = require('react')
   , Month           = require('./Month')
   , Year            = require('./Year')
   , Decade          = require('./Decade')
-  , Century         = require('./Century') 
+  , Century         = require('./Century')
   , CustomPropTypes = require('./util/propTypes')
   , createUncontrolledWidget = require('uncontrollable')
   , SlideTransition = require('./SlideTransition')
@@ -48,8 +48,9 @@ var VIEW_FORMATS  = {
 
 var propTypes = {
 
-  onCellRender:  React.PropTypes.func, // Instrument mod
   onViewChange:  React.PropTypes.func, // Instrument mod
+  onCellRender:  React.PropTypes.func, // Instrument mod
+  onWeekRender:  React.PropTypes.func, // Instrument mod
 
   onChange:      React.PropTypes.func,
   value:         React.PropTypes.instanceOf(Date),
@@ -64,7 +65,7 @@ var propTypes = {
 
                     if ( err) return err
                     if ( VIEW_OPTIONS.indexOf(props[propname]) < VIEW_OPTIONS.indexOf(props.initialView) )
-                      return new Error(`The \`${propname}\` prop: \`${props[propname]}\` cannot be 'lower' than the \`initialView\` 
+                      return new Error(`The \`${propname}\` prop: \`${props[propname]}\` cannot be 'lower' than the \`initialView\`
                         prop. This creates a range that cannot be rendered.`.replace(/\n\t/g, ''))
                  },
 
@@ -77,14 +78,14 @@ var propTypes = {
                    React.PropTypes.bool,
                    React.PropTypes.oneOf(['readOnly'])
                  ]),
-  
+
   culture:       React.PropTypes.string,
-  
+
   footer:        React.PropTypes.bool,
 
   headerFormat:  CustomPropTypes.localeFormat,
   footerFormat:  CustomPropTypes.localeFormat,
-  
+
   dayFormat:     CustomPropTypes.localeFormat,
   dateFormat:    CustomPropTypes.localeFormat,
   monthFormat:   CustomPropTypes.localeFormat,
@@ -142,10 +143,10 @@ var Calendar = React.createClass({
       monthFormat:   dates.formats.MONTH_NAME_ABRV,
       yearFormat:    dates.formats.YEAR,
 
-      decadeFormat:  (dt, culture) => 
+      decadeFormat:  (dt, culture) =>
         `${dates.format(dt, dates.formats.YEAR, culture)} - ${dates.format(dates.endOf(dt, 'decade'), dates.formats.YEAR, culture)}`,
-      
-      centuryFormat: (dt, culture) => 
+
+      centuryFormat: (dt, culture) =>
         `${dates.format(dt, dates.formats.YEAR, culture)} - ${dates.format(dates.endOf(dt, 'century'), dates.formats.YEAR, culture)}`,
 
       messages: msgs({})
@@ -216,7 +217,7 @@ var Calendar = React.createClass({
           direction={this.state.slideDirection}
           onAnimate={() => this._focus(true)}>
 
-          <View {...viewProps} 
+          <View {...viewProps}
             tabIndex='-1'
             ref='currentView'
             key={key}
@@ -226,6 +227,7 @@ var Calendar = React.createClass({
             today={todaysDate}
             value={this.state.currentDate}
             onCellRender={this.props.onCellRender /* Instrument mod */}
+            onWeekRender={this.props.onWeekRender /* Instrument mod */}
             onChange={this._maybeHandle(this.change)}
             onKeyDown={this._maybeHandle(this._keyDown)}
             onMoveLeft ={this._maybeHandle(this.navigate.bind(null,  dir.LEFT))}
@@ -233,7 +235,7 @@ var Calendar = React.createClass({
 
         </SlideTransition>
         { this.props.footer &&
-          <Footer 
+          <Footer
             value={todaysDate}
             format={this.props.footerFormat}
             culture={this.props.culture}
@@ -241,7 +243,7 @@ var Calendar = React.createClass({
             readOnly={this.props.readOnly}
             onClick={this._maybeHandle(this.select)}
           />
-        } 
+        }
       </div>
     )
   },
@@ -278,11 +280,11 @@ var Calendar = React.createClass({
 
   _focus: function(focused, e){
     if ( +this.props.tabIndex === -1)
-      return 
+      return
 
     this.setTimeout('focus', () => {
 
-      if(focused) 
+      if(focused)
         compat.findDOMNode(this).focus()
 
       if( focused !== this.state.focused){
@@ -351,7 +353,7 @@ var Calendar = React.createClass({
         e.preventDefault()
         this.navigate(dir.RIGHT)
       }
-    } 
+    }
     else {
       this.refs.currentView._keyDown
         && this.refs.currentView._keyDown(e)
@@ -361,7 +363,7 @@ var Calendar = React.createClass({
   },
 
   _label: function() {
-    var { 
+    var {
         culture
       , ...props } = this.props
       , view = this.state.view
@@ -420,12 +422,12 @@ function formats(obj){
     monthFormat:   dates.formats.MONTH_NAME_ABRV,
     yearFormat:    dates.formats.YEAR,
 
-    decadeFormat:  (dt, culture) => 
+    decadeFormat:  (dt, culture) =>
       `${dates.format(dt, dates.formats.YEAR, culture)} - ${dates.format(dates.endOf(dt, 'decade'), dates.formats.YEAR, culture)}`,
-    
-    centuryFormat: (dt, culture) => 
+
+    centuryFormat: (dt, culture) =>
       `${dates.format(dt, dates.formats.YEAR, culture)} - ${dates.format(dates.endOf(dt, 'century'), dates.formats.YEAR, culture)}`,
-      
+
     ...obj
   }
 }
