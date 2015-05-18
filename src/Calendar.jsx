@@ -207,7 +207,7 @@ var Calendar = React.createClass({
           upDisabled={  disabled || this.state.view === this.props.finalView}
           prevDisabled={disabled || !dates.inRange(this.nextDate(dir.LEFT), this.props.min, this.props.max, unit)}
           nextDisabled={disabled || !dates.inRange(this.nextDate(dir.RIGHT), this.props.min, this.props.max, unit)}
-          onViewChange={null /*this._maybeHandle(this.navigate.bind(null, dir.UP, null)) - Instrument mod*/}
+          onViewChange={function(){} /*this._maybeHandle(this.navigate.bind(null, dir.UP, null)) - Instrument mod*/}
           onMoveLeft ={this._maybeHandle(this.navigate.bind(null,  dir.LEFT, null))}
           onMoveRight={this._maybeHandle(this.navigate.bind(null,  dir.RIGHT, null))}/>
 
