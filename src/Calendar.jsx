@@ -168,7 +168,8 @@ var Calendar = React.createClass({
     //if the value changes reset views to the new one
     if ( !dates.eq(val, dateOrNull(this.props.value), VIEW_UNIT[view]))
       this.setState({
-        currentDate: val ? new Date(val) : new Date()
+        currentDate: val ? new Date(val) : new Date(),
+        slideDirection: dates.gt(val, this.state.currentDate) ? "left" : "right" // instrument mod
       })
   },
 
